@@ -15,11 +15,9 @@ import os
 import sys
 import sqlite3
 
-# ── Database path ─────────────────────────────────────────────────────────────
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "mini.db")
 
 
-# ── Connection helper ──────────────────────────────────────────────────────────
 def get_conn() -> sqlite3.Connection:
     """Return an sqlite3 connection with FK enforcement and dict-style rows."""
     conn = sqlite3.connect(DB_PATH)
@@ -33,7 +31,6 @@ def ask(prompt: str) -> str:
     return input(prompt).strip()
 
 
-# ── Existence checks ───────────────────────────────────────────────────────────
 def _project_row(cursor: sqlite3.Cursor, project_id: int):
     cursor.execute(
         "SELECT project_id, name, description FROM projects WHERE project_id = ?",
@@ -50,9 +47,6 @@ def _user_row(cursor: sqlite3.Cursor, user_id: int):
     return cursor.fetchone()
 
 
-# ==============================================================================
-# USER MANAGEMENT  (table: users)
-# ==============================================================================
 def add_user():
     print("\n── Add User ──")
     username = ask("Username: ")
@@ -135,9 +129,6 @@ def delete_user():
         print(f"[OK] User {uid} deleted.")
 
 
-# ==============================================================================
-# PROJECT MANAGEMENT  (table: projects)
-# ==============================================================================
 def add_project():
     print("\n── Add Project ──")
     name = ask("Project name: ")
@@ -216,9 +207,7 @@ def delete_project():
         print(f"[OK] Project {pid} (and related tasks) deleted.")
 
 
-# ==============================================================================
-# TASK MANAGEMENT  (table: tasks)
-# ==============================================================================
+
 def add_task():
     print("\n── Add Task ──")
     title = ask("Task title: ")
@@ -349,9 +338,6 @@ def delete_task():
         print(f"[OK] Task {tid} deleted.")
 
 
-# ==============================================================================
-# MENUS
-# ==============================================================================
 def user_menu():
     options = {"1": view_users, "2": add_user, "3": update_user, "4": delete_user}
     while True:
